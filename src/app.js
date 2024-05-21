@@ -1,6 +1,7 @@
-import express, { application } from "express";
+import express from "express";
 import conectaNaDatabase from "./config/dbConnect.js";
 import routes from "./routes/index.js";
+import manipulaErros from "./middlewares/manipulaErros.js";
 
 const conexao = await conectaNaDatabase();
 
@@ -13,6 +14,9 @@ conexao.once("open", () => {
 });
 
 const app = express();
+app.use(express.json())
 routes(app);
+
+app.use(manipulaErros);
 
 export default app;
